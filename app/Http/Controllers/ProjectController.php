@@ -15,7 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all();
+        return view('projects.index', compact('projects'));
     }
 
     /**
@@ -25,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -47,7 +48,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -58,9 +59,19 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
-
+    // public function validation(Request $request)
+    // {
+    //     return $request->validate([
+    //         'title' => 'required|min:3|max:100',
+    //         'client' => 'required|min:3|max:100',
+    //         'description' => 'required|min:3|max:2000|string',
+    //         'url' => 'required|min:3|max:100|url',
+    //         'slug' => 'required|min:3|max:100',
+    //         'date_creation' => 'required|date_format:Y-m-d',
+    //     ]);
+    // }
     /**
      * Update the specified resource in storage.
      *
@@ -70,7 +81,6 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
     }
 
     /**
