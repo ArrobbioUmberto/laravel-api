@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100)->unique();
+            $table->string('client');
             $table->text('description', 1000);
+            $table->string('url');
             $table->string('slug');
             $table->date('date_creation');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
