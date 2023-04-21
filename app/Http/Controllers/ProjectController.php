@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -15,7 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::withTrashed()->get();
         return view('projects.index', compact('projects'));
     }
 
@@ -37,7 +38,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::slug($data['title']);
+        $project = Project::create($data);
+        return to_route('projects.show', $project);
     }
 
     /**
@@ -61,17 +66,7 @@ class ProjectController extends Controller
     {
         return view('projects.edit', compact('project'));
     }
-    // public function validation(Request $request)
-    // {
-    //     return $request->validate([
-    //         'title' => 'required|min:3|max:100',
-    //         'client' => 'required|min:3|max:100',
-    //         'description' => 'required|min:3|max:2000|string',
-    //         'url' => 'required|min:3|max:100|url',
-    //         'slug' => 'required|min:3|max:100',
-    //         'date_creation' => 'required|date_format:Y-m-d',
-    //     ]);
-    // }
+
     /**
      * Update the specified resource in storage.
      *
@@ -81,8 +76,22 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-    }
+        $data = $request->validated();
 
+        if ($data['title'] !== $project->title) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        $project->update($data);
+        return to_route('projects.show', $project);
+    }
+    public function restore(Project $project)
+    {
+        if ($project->trashed()) {
+            $project->restore();
+        }
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -91,6 +100,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        if ($project->trashed()) {
+            $project->forceDelete();
+        } else {
+            $project->delete();
+        }
+
+        return to_route('projects.index');
     }
 }

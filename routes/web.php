@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/projects/{project}/delete', [ProjectController::class, 'delete'])->name('projects.delete')->withTrashed();
+
+    Route::post('/projects/{project:slug}/restore', [ProjectController::class, 'restore'])->name('projects.restore')->withTrashed();
+
     Route::resource('projects', ProjectController::class)->parameters([
-        'projects' => 'projects:slug'
-    ]);
+        'projects' => 'project:slug'
+    ])->withTrashed(['show', 'edit', 'update', 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

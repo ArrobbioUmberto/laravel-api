@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class StoreProjectRequest extends FormRequest
 {
     /**
@@ -24,7 +25,11 @@ class StoreProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|unique:projects,title|string|max:100',
+            'client' => 'required|string',
+            'description' => 'required|max:1000|string',
+            'url' => 'required|url|string',
+            'date_creation' => 'required|date',
         ];
     }
 }

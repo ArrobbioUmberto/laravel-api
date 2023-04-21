@@ -1,19 +1,17 @@
 @extends('layouts.app')
 @section('content')
 
-edt index
-
 <div class="Container">
     <h1>Modifica: {{$project->title}}</h1>
 </div>
 <div class="container">
-    <form action="{{ route('projects.update',$project)}}" method="POST">
+    <form action="{{ route('projects.update', $project)}}" method="POST">
         @csrf
         @method('PUT')
         <div class="input-group mb-3">
             <label for="title" class="form-label">Titolo</label>
             <div class="input-group">
-                <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="" aria-label="Username" aria-describedby="basic-addon1" id="title" name="title" value="{{old('title',$project->title)}}">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="" aria-label="Username" aria-describedby="titleHelp" id="title" name="title" value="{{old('title',$project->title)}}">
                 @error('title')
                 <div class="invalid-feedback">
                     {{$message}}
@@ -36,7 +34,7 @@ edt index
         <div class="input-group mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <div class="input-group">
-                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" cols="30" rows="10" value="{{old('description',$project->description)}}">
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" cols="30" rows="10">
                 {{old('description',$project->description)}}
                 </textarea>
                 @error('description')
@@ -84,7 +82,7 @@ edt index
 
         <div class="col-auto mt-3">
             <button type="submit" class="btn btn-primary">Modifica</button>
-            <a href="{{route('project.index')}}" class="btn btn-secondary"> Torna alla Homepage</a>
+            <a href="{{route('projects.index')}}" class="btn btn-secondary"> Torna alla Homepage</a>
         </div>
     </form>
 </div>

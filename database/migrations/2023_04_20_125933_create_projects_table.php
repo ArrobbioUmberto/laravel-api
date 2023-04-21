@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('client');
             $table->text('description', 1000);
             $table->string('url');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->date('date_creation');
             $table->softDeletes();
             $table->timestamps();
