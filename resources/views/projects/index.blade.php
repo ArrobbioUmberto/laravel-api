@@ -1,10 +1,25 @@
 @extends('layouts.app')
 @section('content')
 
+@if(request()->session()->exists('message'))
+
+<div class="alert alert-primary" role="alert">
+    {{ request()->session()->pull('message') }}
+</div>
+
+@endif
 <div class="container py-5">
     <div class="d-flex align-items-center">
+        <h1 class="me-auto">Tutti i post</h1>
+
+
+
+
         <div>
-            <a class="btn btn-sm btn-primary" href="{{ route('projects.create') }}">Nuovo Progetto</a>
+            @if(request('trashed'))
+            <a class="btn btn-sm btn-light" href="{{ route('projects.index') }}">Tutti i post</a>
+            @endif
+            <a class="btn btn-sm btn-primary" href="{{ route('projects.create') }}">Nuovo post</a>
         </div>
     </div>
 </div>
