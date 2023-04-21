@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Str;
@@ -14,10 +15,18 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::withTrashed()->get();
-        return view('projects.index', compact('projects'));
+
+        $trashed = $request->input('trashed');
+        if ($trashed) {
+            $projects = Project::onlyTrashed()->get();
+        } else {
+            $projects = Project::all();
+        }
+        $num_of_trashed = Project::onlyTrashed()->count();
+
+        return view('projects.index', compact('projects', 'num_of_trashed'));
     }
 
     /**
