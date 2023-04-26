@@ -18,4 +18,9 @@ class Project extends Model
         'slug',
         'date_creation'
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }
