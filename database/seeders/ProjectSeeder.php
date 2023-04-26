@@ -29,13 +29,13 @@ class ProjectSeeder extends Seeder
 
 
             $project = new Project();
-            $project->type_id = $faker->optional()->randomElement($type_ids);
             $project->title = $faker->unique()->sentence($faker->numberBetween(2, 6));
             $project->client = $full_name;
             $project->description = $faker->text(500);
             $project->url = $faker->url();
             $project->slug = Str::slug($project->title, '-');
             $project->date_creation = $faker->date('Y-m-d');
+            $project->type_id = $faker->optional()->randomElement($type_ids);
             $project->save();
         }
     }
