@@ -39,7 +39,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::orderBy('name', 'asc')->get();
-        return view('projects.create', compact('types'));
+        $technologies = Technology::orderBy('name', 'asc')->get();
+
+        return view('projects.create', compact('types', 'technologies'));
     }
 
     /**
