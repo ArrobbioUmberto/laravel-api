@@ -32,6 +32,7 @@
                     <th>Categoria</th>
                     <th>Title</th>
                     <th>Slug</th>
+                    <th>Tecnologie</th>
                     <th>Client</th>
                     <th>Description</th>
                     <th>Url</th>
@@ -47,6 +48,13 @@
                             <a href="{{ route('projects.show', $project) }}">{{ $project->title }}</a>
                         </td>
                         <td>{{ $project->slug }}</td>
+                        <td>
+                            @forelse ($project->technologies()->orderBy('name','asc')->get() as $technology)
+                                <span class="badge rounded-pill text-bg-primary">{{ $technology->name }}</span>
+                            @empty
+                                -
+                            @endforelse
+                        </td>
                         <td>{{ $project->client }}</td>
                         <td>{{ $project->description }}</td>
                         <td>{{ $project->url }}</td>
