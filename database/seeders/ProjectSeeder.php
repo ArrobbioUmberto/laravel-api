@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class ProjectSeeder extends Seeder
     {
 
         $type_ids = Type::all()->pluck('id')->all();
+        $technology_id = Technology::all()->pluck('id')->all();
 
         for ($i = 0; $i < 20; $i++) {
 
@@ -37,6 +39,8 @@ class ProjectSeeder extends Seeder
             $project->date_creation = $faker->date('Y-m-d');
             $project->type_id = $faker->optional()->randomElement($type_ids);
             $project->save();
+
+            $project->technologies()->attach($faker->randomElements($technology_id));
         }
     }
 }
