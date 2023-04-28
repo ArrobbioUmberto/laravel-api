@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             // 1. aggiungo la colonna
-            $table->unsignedBigInteger('type_id')->nullable()->afetr('id');
+            $table->unsignedBigInteger('type_id')->nullable()->after('id');
 
             //2. creo la relazione tra la chiave esterna(type_id) e la chiave primaria(id)
 
