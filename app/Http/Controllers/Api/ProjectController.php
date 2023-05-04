@@ -22,7 +22,7 @@ class ProjectController extends Controller
         if ($project) {
             return response()->json([
                 'success' => true,
-                'project' => $slug
+                'project' => $project
             ]);
         } else {
             return response()->json([
