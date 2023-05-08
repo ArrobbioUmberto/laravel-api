@@ -8,6 +8,7 @@ use App\Models\Technology;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -52,9 +53,14 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        // dd($request->all()); vedo che esiste un nuovo elemento image e che laravel lo riconosce come tale e lo inserisce dentro una illuminate uploaded files, possiamo vedere anche i dettagli dell'immagine-> utili per eventuali validazioni 
         $data = $request->validated();
 
         $data['slug'] = Str::slug($data['title']);
+
+        if ($request->hasFile('image')) {
+            $project_image = Storage::put('uploads', $data['image']);
+        }
         $project = Project::create($data);
         if (isset($data['technologies'])) {
             $project->technologies()->attach($data['technologies']);
