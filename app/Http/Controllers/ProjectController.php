@@ -108,7 +108,14 @@ class ProjectController extends Controller
         if ($data['title'] !== $project->title) {
             $data['slug'] = Str::slug($data['title']);
         }
-
+        if ($request->hasFile('image')) {
+            $project_image = Storage::put('uploads', $data['image']);
+            $data['cover_image'] = $project_image;
+            // secondo controllo, se il project aveva già una cover image allora dovrò eliminare quella vecchia in modo da poterla restituire. Dovremo prima verificare anche se esiste nel disco in cui cerchiamo 
+            if ($project->cover_image && Storage::exists($project->cover_image)) {
+                Storage::delete($project->cover_image);
+            }
+        }
         $project->update($data);
 
         if (isset($data['technologies'])) {
@@ -134,6 +141,10 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         if ($project->trashed()) {
+            //PRIMA DI ELIMINARE IL PROJECT ELIMINO ANCHE DEFINITIVAMENTE L'IMMAGINE ASSOCIATA AL PROJECT 
+            if ($project->cover_image && Storage::exists($project->cover_image)) {
+                Storage::delete($project->cover_image);
+            }
             $project->forceDelete();
         } else {
             $project->delete();
