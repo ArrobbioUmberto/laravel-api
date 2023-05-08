@@ -4,9 +4,22 @@
         <h1>Modifica: {{ $project->title }}</h1>
     </div>
     <div class="container">
-        <form action="{{ route('projects.update', $project) }}" method="POST">
+        <form action="{{ route('projects.update', $project) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            @if ($project->cover_image)
+                <img src="{{ asset('storage/' . $project->cover_image) }}" alt="" width="200" class="mb-2">
+            @endif
+            <div class="mb-3">
+                <label for="image" class="form-label">Immagine di copertina</label>
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                    value="{{ old('image') }}" id="image" aria-describedby="image">
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
             <div class="input-group mb-3">
                 <label for="title" class="form-label">Titolo</label>
                 <div class="input-group">
@@ -112,8 +125,8 @@
             <div class="input-group mb-3">
                 <label for="date_creation" class="form-label">Data di creazione</label>
                 <div class="input-group">
-                    <input type="text" class="form-control @error('date_creation') is-invalid @enderror" placeholder=""
-                        aria-label="Username" id="date_creation" name="date_creation"
+                    <input type="text" class="form-control @error('date_creation') is-invalid @enderror"
+                        placeholder="" aria-label="Username" id="date_creation" name="date_creation"
                         value="{{ old('date_creation', $project->date_creation) }}">
                     @error('date_creation')
                         <div class="invalid-feedback">
