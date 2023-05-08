@@ -27,7 +27,6 @@ class Project extends Model
     }
     public function technologies()
     {
-
         return $this->belongsToMany(Technology::class)->orderBy('name', 'asc'); // aggiungo la possibilità di ordinare le tecnologie usate direttamente dalla funzione in modo tale da non doverlo scrivere nel forelse quando utilizzo technologies
         // questa aggiunta vale nel caso in cui volgio tutti i dati con la stessa caratteristica e non ho eccezioni. Se ho altri comportamenti meglio utilizzare una chiamata generica e poi fare caso specifico 
     }
