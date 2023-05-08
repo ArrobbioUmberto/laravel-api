@@ -2,8 +2,18 @@
 @section('content')
     <div class="container">
         <h1>Nuovo Progetto</h1>
-        <form action="{{ route('projects.store') }}" method="POST">
+        <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <div class="mb-3">
+                <label for="image" class="form-label">Immagine di copertina</label>
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                    value="{{ old('image') }}" id="image" aria-describedby="image">
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
                 <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
