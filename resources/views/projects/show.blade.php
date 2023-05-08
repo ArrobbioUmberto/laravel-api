@@ -35,4 +35,20 @@
             {{ $project->date_creation }}
         </p>
     </div>
+    <div class="container">
+        <h2>Articoli correlati</h2>
+        @if ($project->type)
+            <ul>
+                @foreach ($project->getRelatedProjects() as $related_project)
+                    <li>
+                        <a href="{{ route('projects.show', $related_project) }}">
+                            {{ $related_project->title }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            nessun articolo correlato
+        @endif
+    </div>
 @endsection
