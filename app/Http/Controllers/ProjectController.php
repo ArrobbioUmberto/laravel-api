@@ -60,6 +60,7 @@ class ProjectController extends Controller
 
         if ($request->hasFile('image')) {
             $project_image = Storage::put('uploads', $data['image']);
+            $data['cover_image'] = $project_image;
         }
         $project = Project::create($data);
         if (isset($data['technologies'])) {
