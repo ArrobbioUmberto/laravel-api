@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+    <div class="container py-5">
+        <img src="{{ asset('storage/' . $project->cover_image) }}" alt="">
+    </div>
     <div class="container">
         <div class="d-flex align-items-center">
             <div class="me-auto">
